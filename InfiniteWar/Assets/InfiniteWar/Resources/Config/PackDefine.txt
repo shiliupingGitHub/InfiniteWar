@@ -1,0 +1,5 @@
+{
+"url":"http://192.168.1.98/web2/RemotePackDefine.txt",
+"bundle":1,
+"uncompresstip":"正在为你第一次启动解压资源(不消耗流量)"
+}
