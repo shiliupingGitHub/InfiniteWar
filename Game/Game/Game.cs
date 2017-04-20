@@ -6,9 +6,16 @@ using UnityEngine;
 
 public class Game :SingleTon<Game>
 {
+    void OnUpdate()
+    {
+        System.Random r = new System.Random();
+
+        Debug.Log(r.Next(1, 10000));
+    }
     public static void StartGame()
     {
-        Debug.Log("helloworld2");
+        Patcher.Instance.mOnUpdate += Game.Instance.OnUpdate;
+        Debug.Log("helloworld3");
     }
 }
 
