@@ -20,7 +20,7 @@ public class mTonBehaviourInspecter : Editor {
         {
             TextAsset ta = (TextAsset)Selection.activeObject;
             sb.Append("using UnityEngine;\n");
-            sb.Append("public  partial class " + ta.name + " : mTonBase \n{");
+            sb.Append("public  partial class " + ta.name + "  \n{");
             //System.Object o = mTonMiniJSON.Json.Deserialize(ta.text);
             Dictionary<string, mTonFieldInfo> fields = mTonFieldInfo.Deserilize(ta.text);
             foreach (var f in fields)
