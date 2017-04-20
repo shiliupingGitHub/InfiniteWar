@@ -41,9 +41,9 @@ public partial  class LoginScene : BaseScene
         }
 
     }
-    public  void SerilizeScene()
+    void SerilizeRoot()
     {
-         GameObject[] roots = mScene.GetRootGameObjects();
+        GameObject[] roots = mScene.GetRootGameObjects();
         if (null != roots)
         {
             foreach (var r in roots)
@@ -55,6 +55,10 @@ public partial  class LoginScene : BaseScene
                 }
             }
         }
+    }
+    public  void SerilizeScene()
+    {
+        SerilizeRoot();
     }
 }
 
