@@ -4,6 +4,12 @@
    "type":"UIRoot",
    "des":"NGUI父节点"
  }
+
+ {
+   "field":"mGoLoginFrame",
+   "type":"GameObject",
+   "des":"登录界面"
+ }
 ]
 
 

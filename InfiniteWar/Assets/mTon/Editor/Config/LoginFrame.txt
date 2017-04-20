@@ -1,0 +1,10 @@
+﻿[
+ {
+   "field":"btn_login",
+   "type":"UIEventListener",
+   "des":"登录按钮"
+ }
+
+]
+
+

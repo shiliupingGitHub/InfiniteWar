@@ -1,1 +1,1 @@
-{"content":[{"name":"game","version":"3440ab3588f82b72f26194797664fd11","depends":[],"len":3019},{"name":"level_login","version":"a56186baea7f99ca425203889aa07210","depends":[],"len":287912}]}
+{"content":[{"name":"game","version":"eb7e385108a0c734ac259e7e3d702ac4","depends":[],"len":3317},{"name":"level_login","version":"3010baf4df8e02a09170c65fd2873a3f","depends":["loginfrrame"],"len":287846},{"name":"loginfrrame","version":"a0e399c9804c2975514d09d64f1c49c5","depends":[],"len":250853}]}

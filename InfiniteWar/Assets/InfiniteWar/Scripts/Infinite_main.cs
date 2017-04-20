@@ -85,6 +85,7 @@ public class Infinite_main : MonoBehaviour {
                 {
                     appdomain.LoadAssembly(ms);
                 }
+                InitILRunTime(appdomain);
                 appdomain.Invoke("Game", "StartGame", null);
             }
 
@@ -109,6 +110,17 @@ public class Infinite_main : MonoBehaviour {
 
 
 
+    }
+    void InitILRunTime(ILRuntime.Runtime.Enviorment.AppDomain appdomain)
+    {
+        appdomain.DelegateManager.RegisterMethodDelegate<UnityEngine.GameObject>();
+        appdomain.DelegateManager.RegisterDelegateConvertor<UIEventListener.VoidDelegate>((act) =>
+        {
+            return new UIEventListener.VoidDelegate((go) =>
+            {
+                ((Action<UnityEngine.GameObject>)act)(go);
+            });
+        });
     }
     void OnError(string text)
     {
