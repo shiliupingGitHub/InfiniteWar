@@ -52,11 +52,13 @@
       <Name>InfiniteWar.CSharp</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup>
+    <Folder Include="scene\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>copy $(ProjectDir)\bin\Debug\Game.dll  $(ProjectDir)..\..\InfiniteWar\Assets\Patcher\Prefabs\code\gamedebug.bytes
-copy $(ProjectDir)\bin\Debug\Game.pdb $(ProjectDir)..\..\InfiniteWar\Assets\Patcher\Prefabs\code\gamepdb.bytes
-copy $(ProjectDir)\bin\Release\Game.dll  $(ProjectDir)..\..\InfiniteWar\Assets\Patcher\Prefabs\code\game.bytes</PostBuildEvent>
+    <PostBuildEvent>
+    </PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
