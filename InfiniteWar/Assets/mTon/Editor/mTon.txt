@@ -1,1 +1,1 @@
-mTon/Generater
+../../Game/Game/script

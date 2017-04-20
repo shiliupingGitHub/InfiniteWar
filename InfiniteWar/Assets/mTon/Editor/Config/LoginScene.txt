@@ -1,0 +1,9 @@
+﻿[
+ {
+   "field":"mUIRoot",
+   "type":"UIRoot",
+   "des":"NGUI父节点"
+ }
+]
+
+
