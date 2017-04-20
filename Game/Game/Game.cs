@@ -6,16 +6,31 @@ using UnityEngine;
 
 public class Game :SingleTon<Game>
 {
+    LoginScene mLoginScene = new LoginScene();
     void OnUpdate()
     {
-        System.Random r = new System.Random();
-
-        Debug.Log(r.Next(1, 10000));
+        
+    }
+    void startScene()
+    {
+        mLoginScene.Start();
+    }
+    void Start()
+    {
+        initDelegate();
+        startScene();
+        mLoginScene.Enter();
+    }
+   
+    void initDelegate()
+    {
+        Patcher.Instance.mOnUpdate += Game.Instance.OnUpdate;
     }
     public static void StartGame()
     {
-        Patcher.Instance.mOnUpdate += Game.Instance.OnUpdate;
-        Debug.Log("helloworld3");
+        Game.Instance.Start();
+        
+       
     }
 }
 
