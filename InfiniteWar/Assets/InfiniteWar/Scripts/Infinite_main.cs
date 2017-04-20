@@ -5,8 +5,8 @@ using System;
 using System.Collections;
 using System.IO;
 public class Infinite_main : MonoBehaviour {
-  
 
+    public bool UnityDebug = false;
     // Use this for initialization
     public static PackDefine s_PackDefine;
     public static RemotePackDefine s_RemotePackDefine = new RemotePackDefine();
@@ -16,7 +16,7 @@ public class Infinite_main : MonoBehaviour {
     public GameObject go_tipframe;
     public UILabel lb_info_tip;
     public UIEventListener btn;
-    ILRuntime.Runtime.Enviorment.AppDomain appdomain = new ILRuntime.Runtime.Enviorment.AppDomain();
+  
     void Start () {
         Debug.Log(Application.persistentDataPath);
         DisableUI();
@@ -64,28 +64,49 @@ public class Infinite_main : MonoBehaviour {
     }
     void OnFinishDownload()
     {
-        if(s_PackDefine.debug || s_RemotePackDefine.mDefine.ContainsKey("remotedebug"))
-        {
-            TextAsset ta = s_Patcher.GetAsset("gamedebug") as TextAsset;
-            TextAsset tapdb = s_Patcher.GetAsset("gamepdb") as TextAsset;
-            using (MemoryStream ms = new MemoryStream(ta.bytes))
+        if(!UnityDebug)
+        {      
+            TextAsset ta = s_Patcher.GetAsset("game") as TextAsset;
+            s_Patcher.Clear();
+            if (Application.platform == RuntimePlatform.Android  )
             {
-                using (MemoryStream mspdb = new MemoryStream(tapdb.bytes))
+               System.Reflection.Assembly assembly =  AppDomain.CurrentDomain.Load(ta.bytes);
+                Type type = assembly.GetType("Game");
+                if (null != ta)
                 {
-                    appdomain.LoadAssembly(ms, mspdb, new Mono.Cecil.Pdb.PdbReaderProvider());
+                    System.Reflection.MethodInfo m = type.GetMethod("StartGame");
+                    m.Invoke(null, null);
                 }
             }
+            else
+            {
+                ILRuntime.Runtime.Enviorment.AppDomain appdomain = new ILRuntime.Runtime.Enviorment.AppDomain();
+                using (MemoryStream ms = new MemoryStream(ta.bytes))
+                {
+                    appdomain.LoadAssembly(ms);
+                }
+                appdomain.Invoke("Game", "StartGame", null);
+            }
+
         }
         else
         {
-            TextAsset ta = s_Patcher.GetAsset("game") as TextAsset;
-            using (MemoryStream ms = new MemoryStream(ta.bytes))
+          System.Reflection.Assembly[] assemblys =   AppDomain.CurrentDomain.GetAssemblies();
+           foreach(var assembly in  assemblys)
             {
-                appdomain.LoadAssembly(ms);
+                if(assembly.ManifestModule.Name.Contains("Game"))
+                {
+                    Type type = assembly.GetType("Game");
+                    if(null != type)
+                    {
+                       System.Reflection.MethodInfo m = type.GetMethod("StartGame");
+                        m.Invoke(null, null);
+                    }
+                }
             }
+           // Type.GetType("Game").GetMethod("StartGame").Invoke(null,null);
         }
-        s_Patcher.Clear();
-        appdomain.Invoke("Game", "StartGame", null);
+
 
 
     }
@@ -122,6 +143,7 @@ public class Infinite_main : MonoBehaviour {
             GameObject pGo = new GameObject("Patcher");
             GameObject.DontDestroyOnLoad(pGo);
             s_Patcher = pGo.AddComponent<Patcher>();
+            Patcher.Instance = s_Patcher;
             int curBundle = Mathf.Max(s_Patcher.UnPackBundle, s_PackDefine.Bundle);
             if(remoteMinbundle > curBundle)
             {

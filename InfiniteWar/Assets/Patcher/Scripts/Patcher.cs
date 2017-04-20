@@ -6,6 +6,10 @@ using System;
 using System.IO.Compression;
 using System.Collections;
 public class Patcher : MonoBehaviour  {
+
+    public static Patcher Instance = null;
+    public System.Action mOnUpdate = null;
+    public System.Action<string> mOnMsg = null;
    public PatcherDownloader mDownloader;
     System.Action mOnFinish;
     System.Action<string> mOnError;
@@ -220,6 +224,14 @@ public class Patcher : MonoBehaviour  {
         {
             mBuff.Remove(r);
         }
+
+        if (null != mOnUpdate)
+            mOnUpdate();
+    }
+    void OnMsg(string msg)
+    {
+        if (null != mOnMsg)
+            mOnMsg(msg);
     }
    bool IsDepenceLoaded(string path)
     {

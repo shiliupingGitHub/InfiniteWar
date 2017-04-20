@@ -5,11 +5,5 @@ AssetBundleManifest:
       Name: level_login
       Dependencies: {}
     Info_1:
-      Name: gamepdb
-      Dependencies: {}
-    Info_2:
       Name: game
-      Dependencies: {}
-    Info_3:
-      Name: gamedebug
       Dependencies: {}
