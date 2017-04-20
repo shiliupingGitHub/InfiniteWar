@@ -48,6 +48,7 @@
     <Compile Include="ResourceManager.cs" />
     <Compile Include="scene\BaseScene.cs" />
     <Compile Include="scene\LoginScene.cs" />
+    <Compile Include="script\LoginScene.cs" />
     <Compile Include="SingleTon.cs" />
   </ItemGroup>
   <ItemGroup>

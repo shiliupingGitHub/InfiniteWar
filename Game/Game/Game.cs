@@ -9,7 +9,7 @@ public class Game :SingleTon<Game>
     LoginScene mLoginScene = new LoginScene();
     void OnUpdate()
     {
-        
+        mLoginScene.Update();
     }
     void startScene()
     {
