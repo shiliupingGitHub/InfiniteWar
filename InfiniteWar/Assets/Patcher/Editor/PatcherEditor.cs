@@ -46,6 +46,7 @@ public class PatcherEditor : Editor {
             Directory.Delete(Application.persistentDataPath,true);
         PlayerPrefs.DeleteAll();
     }
+
     static void BuildZip(BuildTarget target)
     {
         string outPath = Application.dataPath + "/Patcher/Resources/game.bytes";
