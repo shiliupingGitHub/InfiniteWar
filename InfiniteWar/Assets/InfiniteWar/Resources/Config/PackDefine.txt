@@ -3,5 +3,6 @@
 "debug":true,
 "bundle":1,
 "updatetip":"正在为你更新资源({0:F}/{1:F})",
-"uncompresstip":"正在为你第一次启动解压资源(不消耗流量)"
+"uncompresstip":"正在为你第一次启动解压资源(不消耗流量)",
+"remotedebug":1
 }

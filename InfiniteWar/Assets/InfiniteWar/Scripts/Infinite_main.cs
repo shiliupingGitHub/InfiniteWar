@@ -3,15 +3,17 @@ using System.Collections.Generic;
 using LiteJSON;
 using System;
 using System.Collections;
+using System.IO;
 public class Infinite_main : MonoBehaviour {
   
 
     // Use this for initialization
     public static PackDefine s_PackDefine;
-    public static RemovePackDefine s_RemotePackDefine = new RemovePackDefine();
+    public static RemotePackDefine s_RemotePackDefine = new RemotePackDefine();
     public static Patcher s_Patcher;
     public UISlider sd;
     public UILabel lb_tip;
+    ILRuntime.Runtime.Enviorment.AppDomain appdomain = new ILRuntime.Runtime.Enviorment.AppDomain();
     void Start () {
         Debug.Log(Application.persistentDataPath);
         DisableUI();
@@ -54,9 +56,40 @@ public class Infinite_main : MonoBehaviour {
     void UnPackFinish()
     {
         DisableUI();
-        s_Patcher.BeingDownload(s_RemotePackDefine.mDefine["PatcherUrl"].ToString(),s_PackDefine.debug, OnFinishDownload);
+        s_Patcher.BeingDownload(s_RemotePackDefine.mDefine["PatcherUrl"].ToString(),s_PackDefine.debug, OnFinishDownload,OnError);
     }
     void OnFinishDownload()
+    {
+        if(s_PackDefine.debug || s_RemotePackDefine.mDefine.ContainsKey("remotedebug"))
+        {
+            TextAsset ta = s_Patcher.GetAsset("gamedebug") as TextAsset;
+            TextAsset tapdb = s_Patcher.GetAsset("gamepdb") as TextAsset;
+            using (MemoryStream ms = new MemoryStream(ta.bytes))
+            {
+                using (MemoryStream mspdb = new MemoryStream(tapdb.bytes))
+                {
+                    appdomain.LoadAssembly(ms, mspdb, new Mono.Cecil.Pdb.PdbReaderProvider());
+                }
+            }
+        }
+        else
+        {
+            TextAsset ta = s_Patcher.GetAsset("game") as TextAsset;
+            using (MemoryStream ms = new MemoryStream(ta.bytes))
+            {
+                appdomain.LoadAssembly(ms);
+            }
+        }
+        s_Patcher.Clear();
+        appdomain.Invoke("Game", "StartGame", null);
+
+
+    }
+    void OnError(string text)
+    {
+
+    }
+    void OnNewBundle()
     {
 
     }
@@ -67,26 +100,38 @@ public class Infinite_main : MonoBehaviour {
         if(www.error == null)
         {
             s_RemotePackDefine.mDefine = mTonMiniJSON.Json.Deserialize(www.text) as Dictionary<string, System.Object>;
+            int remoteMinbundle = System.Convert.ToInt32(s_RemotePackDefine.mDefine["minbundle"].ToString());
             s_Patcher = new Patcher();
-            if (s_Patcher.IsNeedUnPack(s_PackDefine.Bundle))
+            int curBundle = Mathf.Max(s_Patcher.UnPackBundle, s_PackDefine.Bundle);
+            if(remoteMinbundle > curBundle)
             {
-                lb_tip.gameObject.SetActive(true);
-                lb_tip.text = s_PackDefine.uncompressTip;
-                yield return new WaitForFixedUpdate();
-                s_Patcher.BeginUnPack(s_PackDefine.Bundle, UnPackFinish,s_PackDefine.debug);
+                OnNewBundle();
             }
             else
-                UnPackFinish();
+            {
+                if (s_Patcher.IsNeedUnPack(s_PackDefine.Bundle, s_PackDefine.debug))
+                {
+                    lb_tip.gameObject.SetActive(true);
+                    lb_tip.text = s_PackDefine.uncompressTip;
+                    yield return new WaitForFixedUpdate();
+                    s_Patcher.BeginUnPack(s_PackDefine.Bundle, UnPackFinish, s_PackDefine.debug);
+                }
+                else
+                    UnPackFinish();
+            }
+            
+
             
         }
         else
         {
+            OnError(www.error);
             //do error;
         }
     }
 
 }
-public class RemovePackDefine
+public class RemotePackDefine
 {
     public Dictionary<string, System.Object> mDefine;
 }

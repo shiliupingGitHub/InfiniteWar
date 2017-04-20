@@ -1,9 +1,9 @@
 ManifestFileVersion: 0
-CRC: 913554379
+CRC: 3606908002
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: 9188dbe966de5afcc78893b8c18b9d93
+    Hash: 36ed4f2acadba2771086baa2242df7be
   TypeTreeHash:
     serializedVersion: 2
     Hash: 1033bf7ddfd4c6d43e7a6382c0a0a61a
@@ -12,5 +12,5 @@ ClassTypes:
 - Class: 49
   Script: {instanceID: 0}
 Assets:
-- Assets/Patcher/Prefabs/code/gamepdb.bytes
+- Assets/Patcher/Prefabs/code/gamedebug.bytes
 Dependencies: []

@@ -68,11 +68,12 @@ public class PatcherDownloader : MonoBehaviour
             mDownloadeds.Serialize(localPath);
         }
     }
-   public  void BeginDownload(string remotePath, System.Action<Patcher.PatcherElem> onFinish)
+   public  void BeginDownload(string remotePath, System.Action<Patcher.PatcherElem> onFinish,System.Action<string> onerror)
     {
         
         mOnFinish = onFinish;
         mPath = remotePath;
+        mOnError = onerror;
        StartCoroutine(Donload());
     }
     public IEnumerator Donload()

@@ -8,6 +8,7 @@ using System.Collections;
 public class Patcher  {
    public PatcherDownloader mDownloader;
     System.Action mOnFinish;
+    System.Action<string> mOnError;
     #region Elems
     public class PatcherElem : IJsonSerializable, IJsonDeserializable
     {
@@ -118,9 +119,19 @@ public class Patcher  {
         public void FromJson(JsonObject jsonObject)
         {
            mElems = jsonObject.GetJsonArray("content").DeserializeToList<Elem>();
+            CreatDic();
         }
     }
     #endregion
+    public void Clear()
+    {
+        foreach(var a in mAssets)
+        {
+            a.Value.Unload(false);
+        }
+        mAssets.Clear();
+        mObs.Clear();
+    }
     public static string GetABsPath(RuntimePlatform plat)
     {
         switch(plat)
@@ -166,14 +177,23 @@ public class Patcher  {
     }
     int mVersion = 0;
     public  PatcherElem mCurElems = null;
-    public bool IsNeedUnPack(int p)
+    public bool IsNeedUnPack(int p,bool debug)
     {
         int v = PlayerPrefs.GetInt("UnPackVersion", 0);
-        return p > v;
+        return p > v && File.Exists(Application.persistentDataPath + "/Pather") && !debug;
     }
-    public void BeingDownload(string url,bool debug, System.Action onfinish)
+    public int UnPackBundle
     {
-        if(!debug)
+        get
+        {
+            return PlayerPrefs.GetInt("UnPackVersion", 0);
+        }
+    }
+
+    public void BeingDownload(string url,bool debug, System.Action onfinish,System.Action<string> onerror)
+    {
+        mOnError = onerror;
+        if (!debug)
         {
             GameObject dGo = new GameObject("Downloader");
             mDownloader = dGo.AddComponent<PatcherDownloader>();
@@ -186,14 +206,15 @@ public class Patcher  {
                 mDownloader = null;
                 if (null != onfinish)
                     onfinish();
-            });
+            },onerror);
         }
         else
         {
             LoadLocalPatcher(delegate (PatcherElem e)
             {
-                mCurElems.mDebug = true;
+               
                 mCurElems = e;
+                mCurElems.mDebug = true;
                 mDownloader = null;
                 if (null != onfinish)
                     onfinish();
@@ -207,6 +228,7 @@ public class Patcher  {
         string path = Application.dataPath + "/Patcher/ABs/" + GetABsPath(RuntimePlatform.WindowsPlayer) + "/Pather";
         string content = File.ReadAllText(path);
         PatcherElem e = Json.Deserialize<PatcherElem>(content);
+        
         if (null != onfinish)
             onfinish(e);
     }
