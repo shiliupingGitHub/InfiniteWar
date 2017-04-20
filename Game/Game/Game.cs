@@ -3,13 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using UnityEngine;
-namespace Game
+
+public class Game
 {
-   public class Game
+    public static void StartGame()
     {
-        public static void StartGame()
-        {
-            Debug.Log("helloworld");
-        }
+        Debug.Log("helloworld");
     }
 }
+
