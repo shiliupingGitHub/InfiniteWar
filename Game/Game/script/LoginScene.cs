@@ -1,5 +1,5 @@
 using UnityEngine;
-public  partial class LoginScene : mTonBase 
+public  partial class LoginScene  
 {
 	UIRoot	mUIRoot;	//NGUI父节点
 	public  void Init(mTonBehaviour s)
