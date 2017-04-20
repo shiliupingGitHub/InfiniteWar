@@ -7,6 +7,7 @@ using System.IO.Compression;
 using System.Collections;
 public class Patcher  {
    public PatcherDownloader mDownloader;
+    System.Action mOnFinish;
     #region Elems
     public class PatcherElem : IJsonSerializable, IJsonDeserializable
     {
@@ -115,7 +116,7 @@ public class Patcher  {
 
         public void FromJson(JsonObject jsonObject)
         {
-           mElems = jsonObject.GetJsonArray("c").DeserializeToList<Elem>();
+           mElems = jsonObject.GetJsonArray("content").DeserializeToList<Elem>();
         }
     }
     #endregion
@@ -169,26 +170,49 @@ public class Patcher  {
         int v = PlayerPrefs.GetInt("UnPackVersion", 0);
         return p > v;
     }
-    public void BeingDownload(string url)
+    public void BeingDownload(string url,bool debug, System.Action onfinish)
     {
-        GameObject dGo = new GameObject("Downloader");
-        mDownloader = dGo.AddComponent<PatcherDownloader>();
-        mDownloader.BeginDownload(url, delegate (PatcherElem e)
+        if(!debug)
         {
-            mCurElems = e;
-            GameObject.Destroy(dGo);
-            mDownloader = null;
-        });
-    }
-    void ThreadRun()
-    {
+            GameObject dGo = new GameObject("Downloader");
+            mDownloader = dGo.AddComponent<PatcherDownloader>();
+            mDownloader.BeginDownload(url, delegate (PatcherElem e)
+            {
+                mCurElems = e;
+                if(null != dGo)
+                     GameObject.Destroy(dGo);
+                mDownloader = null;
+                if (null != onfinish)
+                    onfinish();
+            });
+        }
+        else
+        {
+            LoadLocalPatcher(delegate (PatcherElem e)
+            {
+                mCurElems = e;
+                mDownloader = null;
+                if (null != onfinish)
+                    onfinish();
+            }
+            );
+        }
 
     }
-    public  void BeginUnPack(int p)
+    void LoadLocalPatcher(System.Action<PatcherElem> onfinish)
+    {
+        string path = Application.dataPath + "/Patcher/ABs/" + GetABsPath(RuntimePlatform.WindowsPlayer) + "/Pather";
+        string content = File.ReadAllText(path);
+        PatcherElem e = Json.Deserialize<PatcherElem>(content);
+        if (null != onfinish)
+            onfinish(e);
+    }
+    public  void BeginUnPack(int p,System.Action onFinish,bool debug)
     {
         mVersion = p;
+        mOnFinish = onFinish;
        int v =  PlayerPrefs.GetInt("UnPackVersion", 0);
-        if(mVersion > v)
+        if(mVersion > v && !debug)
         {
            TextAsset  ta= (TextAsset)  Resources.Load("Game");
 
@@ -204,9 +228,11 @@ public class Patcher  {
                 }
                 zip.Close();
             }
-            PlayerPrefs.SetInt("UnPackVersion", mVersion);
-          
+            PlayerPrefs.SetInt("UnPackVersion", mVersion);         
         }
+        if (null != onFinish)
+            onFinish();
+
     }
 
 }

@@ -18,7 +18,7 @@ public class PatcherDownloader : MonoBehaviour
     public string mPath;
     public int mTotal = 0;
     public int mLeft = 0;
-    STATUS mStatus = STATUS.NONE;
+   public STATUS mStatus = STATUS.NONE;
     void Update()
     {
         if (mDownloads == null)
@@ -27,6 +27,7 @@ public class PatcherDownloader : MonoBehaviour
             return;
         if (mDownloads.mElems.Count == 0)
         {
+            mStatus = STATUS.NONE;
             if (null != mOnFinish)
                 mOnFinish(mDownloadeds);
         }
@@ -50,7 +51,7 @@ public class PatcherDownloader : MonoBehaviour
             }
             else
             {
-                mLeft = Mathf.Max(0, e.mLength - e.mDonload.size);
+                mLeft += (int)(e.mLength * (1 - e.mDonload.progress));
             }
         }
 
@@ -63,20 +64,23 @@ public class PatcherDownloader : MonoBehaviour
         }
         if (mWrite)
         {
-            string localPath = Application.persistentDataPath + "/Pather.txt";
+            string localPath = Application.persistentDataPath + "/Pather";
             mDownloadeds.Serialize(localPath);
         }
     }
    public  void BeginDownload(string remotePath, System.Action<Patcher.PatcherElem> onFinish)
     {
+        
         mOnFinish = onFinish;
         mPath = remotePath;
        StartCoroutine(Donload());
     }
     public IEnumerator Donload()
     {
-        string remotePath = mPath + "/Pather.txt";
-        string localPath = Application.persistentDataPath + "/Pather.txt"; ;
+        mDownloadeds = null;
+        mDownloads = null;
+        string remotePath = mPath + "/Pather";
+        string localPath = Application.persistentDataPath + "/Pather"; ;
         WWW www = new WWW(remotePath);
         yield return www;
         if (www.error == null)
@@ -106,7 +110,14 @@ public class PatcherDownloader : MonoBehaviour
             {
                 mDownloads.RemoveElem(r);
             }
-            mStatus = STATUS.DOWNLOADING;
+            if(mDownloads.mElems.Count != 0)
+                mStatus = STATUS.DOWNLOADING;
+            else
+            {
+                mStatus = STATUS.NONE;
+                if (null != mOnFinish)
+                    mOnFinish(mDownloadeds);
+            }
         }
         else if (null != mOnError)
         {

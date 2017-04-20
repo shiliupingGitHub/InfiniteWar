@@ -113,7 +113,7 @@ public class PatcherEditor : Editor {
                 elem.AddElem(e);
             }
             string manifestPath = Application.dataPath + "/Patcher/ABs/" + Path;
-            elem.Serialize(manifestPath + "/Pather.txt");
+            elem.Serialize(manifestPath + "/Pather");
         }
         AssetDatabase.Refresh();
     }
