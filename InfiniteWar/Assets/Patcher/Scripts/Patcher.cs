@@ -5,11 +5,17 @@ using LiteJSON;
 using System;
 using System.IO.Compression;
 using System.Collections;
-public class Patcher  {
+public class Patcher : MonoBehaviour  {
    public PatcherDownloader mDownloader;
     System.Action mOnFinish;
     System.Action<string> mOnError;
     #region Elems
+    public class BundleRequest
+    {
+        public string mPath;
+        public System.Action<UnityEngine.Object> mCallback;
+    }
+
     public class PatcherElem : IJsonSerializable, IJsonDeserializable
     {
         public bool mDebug;
@@ -131,6 +137,8 @@ public class Patcher  {
         }
         mAssets.Clear();
         mObs.Clear();
+        mReqs.Clear();
+        mBuff.Clear();
     }
     public static string GetABsPath(RuntimePlatform plat)
     {
@@ -146,6 +154,8 @@ public class Patcher  {
     }
      Dictionary<string, AssetBundle> mAssets = new Dictionary<string, AssetBundle>();
      Dictionary<string, UnityEngine.Object> mObs = new Dictionary<string, UnityEngine.Object>();
+    Dictionary<string, AssetBundleCreateRequest> mReqs = new Dictionary<string, AssetBundleCreateRequest>();
+    List<BundleRequest> mBuff = new List<BundleRequest>();
     public UnityEngine.Object GetAsset(string path)
     {
         UnityEngine.Object ret = null;
@@ -163,7 +173,7 @@ public class Patcher  {
                         GetAsset(d);
                     }
                 }
-                string aseetPath = mCurElems.mDebug ? Application.dataPath + "/Patcher/ABs/" + GetABsPath(RuntimePlatform.WindowsEditor) + "/" + path : Application.persistentDataPath + "/" + path;
+                string aseetPath = GetAssetPath(path);
                 AssetBundle ab = AssetBundle.LoadFromFile(aseetPath);
                 if(null != ab)
                 {
@@ -175,7 +185,107 @@ public class Patcher  {
         }
         return ret;
     }
+    public string GetAssetPath(string path)
+    {
+        return mCurElems.mDebug ? Application.dataPath + "/Patcher/ABs/" + GetABsPath(RuntimePlatform.WindowsEditor) + "/" + path : Application.persistentDataPath + "/" + path;
+    }
     int mVersion = 0;
+    void Update()
+    {
+        List<string> rm = new List<string>();
+        foreach(var ar in mReqs)
+        {
+            if(ar.Value.isDone && IsDepenceLoaded(ar.Key))
+            {
+                mAssets[ar.Key] = ar.Value.assetBundle;
+                mObs[ar.Key] = ar.Value.assetBundle.LoadAsset(ar.Key);
+                rm.Add(ar.Key);
+            }
+        }
+        foreach(var r in rm)
+        {
+            mReqs.Remove(r);
+        }
+        List<BundleRequest> rm2 = new List<BundleRequest>();
+        foreach(var b in mBuff)
+        {
+            if(mObs.ContainsKey(b.mPath))
+            {
+                b.mCallback(mObs[b.mPath]);
+                rm2.Add(b);
+            }
+        }
+
+        foreach(var r in rm2)
+        {
+            mBuff.Remove(r);
+        }
+    }
+   bool IsDepenceLoaded(string path)
+    {
+        if (null != mCurElems)
+        {
+            PatcherElem.Elem elem = null;
+            if (mCurElems.mDic.TryGetValue(path, out elem))
+            {
+                if (elem.mDepends != null && elem.mDepends.Length > 0)
+                {
+                    foreach (var d in elem.mDepends)
+                    {
+                        if (!mObs.ContainsKey(path))
+                            return false;
+                    }
+                }
+                else
+                    return true;
+           
+            }
+            return true;
+        }
+        return true;
+    }
+    public void LoadAssetAsyn(string path,System.Action<UnityEngine.Object> callback)
+    {
+        if(mObs.ContainsKey(path))
+        {
+            if (null != callback)
+                callback(mObs[path]);
+        }
+        else
+        {
+           if(mReqs.ContainsKey(path))
+            {
+                if(null != callback)
+                {
+                    BundleRequest br = new BundleRequest();
+                    br.mPath = path;
+                    br.mCallback = callback;
+                    mBuff.Add(br);
+                }
+             
+            }
+           else
+            {
+                if (null != mCurElems)
+                {
+                    PatcherElem.Elem elem = null;
+                    if (mCurElems.mDic.TryGetValue(path, out elem))
+                    {
+                        if (elem.mDepends != null && elem.mDepends.Length > 0)
+                        {
+                            foreach (var d in elem.mDepends)
+                            {
+                                LoadAssetAsyn(d, null);
+                            }
+                        }
+                        AssetBundleCreateRequest ar = AssetBundle.LoadFromFileAsync(GetAssetPath(path));
+                        mReqs[path] = ar;
+
+                    }
+                }
+            }
+        }
+    }
     public  PatcherElem mCurElems = null;
     public bool IsNeedUnPack(int p,bool debug)
     {

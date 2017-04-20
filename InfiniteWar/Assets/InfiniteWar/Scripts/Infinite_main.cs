@@ -13,6 +13,9 @@ public class Infinite_main : MonoBehaviour {
     public static Patcher s_Patcher;
     public UISlider sd;
     public UILabel lb_tip;
+    public GameObject go_tipframe;
+    public UILabel lb_info_tip;
+    public UIEventListener btn;
     ILRuntime.Runtime.Enviorment.AppDomain appdomain = new ILRuntime.Runtime.Enviorment.AppDomain();
     void Start () {
         Debug.Log(Application.persistentDataPath);
@@ -50,6 +53,7 @@ public class Infinite_main : MonoBehaviour {
 	}
     void DisableUI()
     {
+        go_tipframe.SetActive(false);
         sd.gameObject.SetActive(false);
         lb_tip.gameObject.SetActive(false);
     }
@@ -87,11 +91,25 @@ public class Infinite_main : MonoBehaviour {
     }
     void OnError(string text)
     {
-
+        go_tipframe.SetActive(true);
+        lb_info_tip.text = text;
+        btn.onClick = delegate (GameObject go)
+        {
+            Application.Quit();
+        };
     }
     void OnNewBundle()
     {
-
+        go_tipframe.SetActive(true);
+        btn.onClick = delegate (GameObject go)
+        {
+            string urlkey = "ChannelBundleUrl" + s_PackDefine.channel;
+            lb_info_tip.text = s_PackDefine.newBundleTip;
+            if (s_RemotePackDefine.mDefine.ContainsKey(urlkey))
+            {
+                Application.OpenURL(s_RemotePackDefine.mDefine[urlkey].ToString());
+            }
+        };
     }
     IEnumerator ObtainRemotePackDefine()
     {
@@ -101,7 +119,9 @@ public class Infinite_main : MonoBehaviour {
         {
             s_RemotePackDefine.mDefine = mTonMiniJSON.Json.Deserialize(www.text) as Dictionary<string, System.Object>;
             int remoteMinbundle = System.Convert.ToInt32(s_RemotePackDefine.mDefine["minbundle"].ToString());
-            s_Patcher = new Patcher();
+            GameObject pGo = new GameObject("Patcher");
+            GameObject.DontDestroyOnLoad(pGo);
+            s_Patcher = pGo.AddComponent<Patcher>();
             int curBundle = Mathf.Max(s_Patcher.UnPackBundle, s_PackDefine.Bundle);
             if(remoteMinbundle > curBundle)
             {
@@ -143,6 +163,8 @@ public class PackDefine : IJsonSerializable, IJsonDeserializable
     public string updateTip;
     public string uncompressTip;
     public bool debug;
+    public int channel;
+    public string newBundleTip;
     public void FromJson(JsonObject jsonObject)
     {
         Url = jsonObject.GetString("url");
@@ -150,6 +172,8 @@ public class PackDefine : IJsonSerializable, IJsonDeserializable
         updateTip = jsonObject.GetString("updatetip");
         uncompressTip = jsonObject.GetString("uncompresstip");
         debug = jsonObject.GetBool("debug");
+        channel = jsonObject.GetInt("channel");
+        newBundleTip = jsonObject.GetString("newBundleTip");
         debug = debug && Application.isEditor;
     }
 
