@@ -1,8 +1,6 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.25123.0
-MinimumVisualStudioVersion = 10.0.40219.1
+# Visual Studio 2015
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InfiniteWar.CSharp", "InfiniteWar.CSharp.csproj", "{6546077E-24E2-B6EB-43AA-C5EAA26F7EA1}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InfiniteWar.CSharp.Editor", "InfiniteWar.CSharp.Editor.csproj", "{E715BFBB-5D7F-1EA4-ED3A-464AE0D05F5C}"
