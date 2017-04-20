@@ -11,6 +11,7 @@ public class Patcher  {
     #region Elems
     public class PatcherElem : IJsonSerializable, IJsonDeserializable
     {
+        public bool mDebug;
         public class Elem  : IJsonSerializable, IJsonDeserializable
         {
             public string szName;
@@ -151,8 +152,8 @@ public class Patcher  {
                         GetAsset(d);
                     }
                 }
-
-                AssetBundle ab = AssetBundle.LoadFromFile(Application.persistentDataPath + "/" + path);
+                string aseetPath = mCurElems.mDebug ? Application.dataPath + "/Patcher/ABs/" + GetABsPath(RuntimePlatform.WindowsEditor) + "/" + path : Application.persistentDataPath + "/" + path;
+                AssetBundle ab = AssetBundle.LoadFromFile(aseetPath);
                 if(null != ab)
                 {
                    ret = ab.LoadAsset(path);
@@ -179,6 +180,7 @@ public class Patcher  {
             mDownloader.BeginDownload(url, delegate (PatcherElem e)
             {
                 mCurElems = e;
+                mCurElems.mDebug = false;
                 if(null != dGo)
                      GameObject.Destroy(dGo);
                 mDownloader = null;
@@ -190,6 +192,7 @@ public class Patcher  {
         {
             LoadLocalPatcher(delegate (PatcherElem e)
             {
+                mCurElems.mDebug = true;
                 mCurElems = e;
                 mDownloader = null;
                 if (null != onfinish)
