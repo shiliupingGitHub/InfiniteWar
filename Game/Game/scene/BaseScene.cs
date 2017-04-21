@@ -16,6 +16,18 @@ public class BaseScene
     {
 
     }
+    public virtual void OnPostEnter(System.Object arg)
+    {
+
+    }
+    public virtual bool IsActive
+    {
+        get
+        {
+            return SceneManager.GetActiveScene() == mScene;
+        }
+    }
+
     public virtual void Enter()
     {
         ResourceManager.Instance.Clear();
