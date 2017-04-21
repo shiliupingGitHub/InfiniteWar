@@ -2,12 +2,19 @@ ManifestFileVersion: 0
 AssetBundleManifest:
   AssetBundleInfos:
     Info_0:
-      Name: level_login
-      Dependencies:
-        Dependency_0: loginfrrame
-    Info_1:
       Name: game
       Dependencies: {}
-    Info_2:
+    Info_1:
       Name: loginfrrame
+      Dependencies: {}
+    Info_2:
+      Name: loginscene
+      Dependencies:
+        Dependency_0: loginfrrame
+    Info_3:
+      Name: hallscene
+      Dependencies:
+        Dependency_0: model_1
+    Info_4:
+      Name: model_1
       Dependencies: {}

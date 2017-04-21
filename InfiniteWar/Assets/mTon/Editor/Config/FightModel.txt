@@ -1,0 +1,9 @@
+﻿[
+ {
+   "field":"btn_ok",
+   "type":"UIEventListener",
+   "des":"进入战斗"
+ }
+]
+
+

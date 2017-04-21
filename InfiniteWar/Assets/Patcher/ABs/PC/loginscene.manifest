@@ -1,9 +1,9 @@
 ManifestFileVersion: 0
-CRC: 1668052350
+CRC: 777941820
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: 3010baf4df8e02a09170c65fd2873a3f
+    Hash: f0f58a001505a4176963646ee69e8b1a
   TypeTreeHash:
     serializedVersion: 2
     Hash: 79642b59b9eddb5d85dc5515107ba328
@@ -56,6 +56,6 @@ ClassTypes:
 - Class: 258
   Script: {instanceID: 0}
 Assets:
-- Assets/Patcher/Prefabs/scene/level_login.unity
+- Assets/Patcher/Prefabs/scene/loginscene.unity
 Dependencies:
 - Assets/Patcher/ABs/PC/loginfrrame
