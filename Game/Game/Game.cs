@@ -8,6 +8,7 @@ public class Game :SingleTon<Game>
 {
     LoginScene mLoginScene = new LoginScene();
     HallScene mHallScene = new HallScene();
+    FightModelScene mFightModelScene = new FightModelScene();
     void OnUpdate()
     {
         mLoginScene.Update();
@@ -31,6 +32,11 @@ public class Game :SingleTon<Game>
     public void EnterLogin()
     {
         mLoginScene.Enter();
+    }
+    public void EnterFight(string mMapName)
+    {
+        mFightModelScene.OnPreEnter(mMapName);
+        mFightModelScene.Enter();
     }
     void initDelegate()
     {

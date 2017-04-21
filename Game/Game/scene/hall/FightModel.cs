@@ -12,8 +12,8 @@ public partial    class FightModel : BaseFrame
         Init(root.GetComponent<mTonBehaviour>());
         btn_ok.onClick += delegate (GameObject go)
         {
-            
-            Game.Instance.EnterLogin();
+
+            Game.Instance.EnterFight(mMapName);
         };
     }
 }

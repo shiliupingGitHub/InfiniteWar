@@ -12,9 +12,14 @@ public class BaseScene
     {
        
     }
+    public virtual void OnPreEnter(System.Object arg)
+    {
+
+    }
     public virtual void Enter()
     {
         ResourceManager.Instance.Clear();
+        mScene = SceneManager.GetSceneByName(ResName);
         if (!mScene.IsValid())
         {
             ResourceManager.Instance.LoadAsset(ResName);

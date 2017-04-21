@@ -44,6 +44,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="frame\BaseFrame.cs" />
+    <Compile Include="scene\fight\FightModelScene.cs" />
     <Compile Include="scene\hall\FightModel.cs" />
     <Compile Include="scene\login\LoginFrame.cs" />
     <Compile Include="Game.cs" />
@@ -53,6 +54,7 @@
     <Compile Include="scene\hall\HallScene.cs" />
     <Compile Include="scene\login\LoginScene.cs" />
     <Compile Include="script\FightModel.cs" />
+    <Compile Include="script\FightModelScene.cs" />
     <Compile Include="script\HallScene.cs" />
     <Compile Include="script\LoginFrame.cs" />
     <Compile Include="script\LoginScene.cs" />
