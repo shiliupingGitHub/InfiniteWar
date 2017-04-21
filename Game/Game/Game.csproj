@@ -44,12 +44,16 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="frame\BaseFrame.cs" />
-    <Compile Include="frame\LoginFrame.cs" />
+    <Compile Include="scene\hall\FightModel.cs" />
+    <Compile Include="scene\login\LoginFrame.cs" />
     <Compile Include="Game.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ResourceManager.cs" />
     <Compile Include="scene\BaseScene.cs" />
-    <Compile Include="scene\LoginScene.cs" />
+    <Compile Include="scene\hall\HallScene.cs" />
+    <Compile Include="scene\login\LoginScene.cs" />
+    <Compile Include="script\FightModel.cs" />
+    <Compile Include="script\HallScene.cs" />
     <Compile Include="script\LoginFrame.cs" />
     <Compile Include="script\LoginScene.cs" />
     <Compile Include="SingleTon.cs" />
