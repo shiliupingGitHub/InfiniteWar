@@ -9,10 +9,12 @@ public class Game :SingleTon<Game>
     LoginScene mLoginScene = new LoginScene();
     HallScene mHallScene = new HallScene();
     FightModelScene mFightModelScene = new FightModelScene();
+    public networklib mNetwork = new networklib();
     void OnUpdate()
     {
         mLoginScene.Update();
         mHallScene.Update();
+        mNetwork.Update();
     }
     void startScene()
     {
