@@ -4,6 +4,17 @@
    "type":"UIEventListener",
    "des":"进入战斗"
  }
+  {
+   "field":"mType",
+   "type":"int",
+   "des":"战斗模式"
+ }
+
+   {
+   "field":"mMapName",
+   "type":"string",
+   "des":"地图名"
+ }
 ]
 
 

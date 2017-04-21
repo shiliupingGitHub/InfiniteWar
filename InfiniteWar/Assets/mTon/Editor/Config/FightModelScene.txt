@@ -1,0 +1,9 @@
+﻿[
+ {
+   "field":"btn_exit",
+   "type":"UIEventListener",
+   "des":"离开战斗"
+ }
+]
+
+

@@ -18,3 +18,10 @@ AssetBundleManifest:
     Info_4:
       Name: model_1
       Dependencies: {}
+    Info_5:
+      Name: fightmodescene_1v1
+      Dependencies:
+        Dependency_0: scenebkroot
+    Info_6:
+      Name: scenebkroot
+      Dependencies: {}

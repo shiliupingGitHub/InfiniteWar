@@ -1,12 +1,12 @@
 ManifestFileVersion: 0
-CRC: 1138011592
+CRC: 3852890781
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: b65fe81523ccd6d2790206701cb9815f
+    Hash: 1c7cacc0a0937f21f5c1e6f26d3ea3d2
   TypeTreeHash:
     serializedVersion: 2
-    Hash: 4b7a2bcba5f5910448f759960104cc0c
+    Hash: ee83810f9793a2b89c5d61fcc43067a1
 HashAppended: 0
 ClassTypes:
 - Class: 1
@@ -21,12 +21,6 @@ ClassTypes:
   Script: {instanceID: 0}
 - Class: 48
   Script: {instanceID: 0}
-- Class: 54
-  Script: {instanceID: 0}
-- Class: 65
-  Script: {instanceID: 0}
-- Class: 81
-  Script: {instanceID: 0}
 - Class: 89
   Script: {instanceID: 0}
 - Class: 104
@@ -34,30 +28,22 @@ ClassTypes:
 - Class: 114
   Script: {fileID: 11500000, guid: ae942c9068183dc40a9d01f648273726, type: 3}
 - Class: 114
-  Script: {fileID: 11500000, guid: 5c041f61e4a9fbf4e830210f5d933ece, type: 3}
-- Class: 114
-  Script: {fileID: 11500000, guid: e9d0b5f3bbe925a408bd595c79d0bf63, type: 3}
-- Class: 114
   Script: {fileID: 11500000, guid: 1e8766657602c4b4e9eaa079ce6ca9d0, type: 3}
 - Class: 114
   Script: {fileID: 11500000, guid: 2c5ecb5660b11414fb042fb826e03b73, type: 3}
 - Class: 114
   Script: {fileID: 11500000, guid: 2a92b5d748695fd44aac9feef17ba415, type: 3}
-- Class: 114
-  Script: {fileID: 11500000, guid: 4d0c51bb0b6e93049af5e88f93826e3b, type: 3}
-- Class: 114
-  Script: {fileID: 11500000, guid: b1bd99dcf43f97d48bb6215c70f0cd40, type: 3}
-- Class: 114
-  Script: {fileID: 11500000, guid: 1b3dc54f924693f41b5cbecb267e647a, type: 3}
 - Class: 115
   Script: {instanceID: 0}
-- Class: 128
-  Script: {instanceID: 0}
 - Class: 157
+  Script: {instanceID: 0}
+- Class: 212
+  Script: {instanceID: 0}
+- Class: 213
   Script: {instanceID: 0}
 - Class: 258
   Script: {instanceID: 0}
 Assets:
-- Assets/Patcher/Prefabs/scene/hallscene.unity
+- Assets/Patcher/Prefabs/scene/fightmodescene_1v1.unity
 Dependencies:
-- Assets/Patcher/ABs/PC/model_1
+- Assets/Patcher/ABs/PC/scenebkroot
