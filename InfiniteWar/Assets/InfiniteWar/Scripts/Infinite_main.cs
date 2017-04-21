@@ -120,7 +120,62 @@ public class Infinite_main : MonoBehaviour {
             {
                 ((Action<UnityEngine.GameObject>)act)(go);
             });
-        });
+        });
+
+        appdomain.DelegateManager.RegisterMethodDelegate<UnityEngine.GameObject,bool>();
+        appdomain.DelegateManager.RegisterDelegateConvertor<UIEventListener.BoolDelegate>((act) =>
+        {
+            return new UIEventListener.BoolDelegate((go,state) =>
+            {
+                ((Action<UnityEngine.GameObject,bool>)act)(go,state);
+            });
+        });
+
+        appdomain.DelegateManager.RegisterMethodDelegate<UnityEngine.GameObject, float>();
+        appdomain.DelegateManager.RegisterDelegateConvertor<UIEventListener.FloatDelegate>((act) =>
+        {
+            return new UIEventListener.FloatDelegate((go, delta) =>
+            {
+                ((Action<UnityEngine.GameObject, float>)act)(go, delta);
+            });
+        });
+
+        appdomain.DelegateManager.RegisterMethodDelegate<UnityEngine.GameObject, Vector2>();
+        appdomain.DelegateManager.RegisterDelegateConvertor<UIEventListener.VectorDelegate>((act) =>
+        {
+            return new UIEventListener.VectorDelegate((go, delta) =>
+            {
+                ((Action<UnityEngine.GameObject, Vector2>)act)(go, delta);
+            });
+        });
+
+        appdomain.DelegateManager.RegisterMethodDelegate<UnityEngine.GameObject, UnityEngine.GameObject>();
+        appdomain.DelegateManager.RegisterDelegateConvertor<UIEventListener.ObjectDelegate>((act) =>
+        {
+            return new UIEventListener.ObjectDelegate((go, obj) =>
+            {
+                ((Action<UnityEngine.GameObject, GameObject>)act)(go, obj);
+            });
+        });
+
+        appdomain.DelegateManager.RegisterMethodDelegate<UnityEngine.GameObject, KeyCode>();
+        appdomain.DelegateManager.RegisterDelegateConvertor<UIEventListener.KeyCodeDelegate>((act) =>
+        {
+            return new UIEventListener.KeyCodeDelegate((go, obj) =>
+            {
+                ((Action<UnityEngine.GameObject, KeyCode>)act)(go, obj);
+            });
+        });
+
+
+        appdomain.DelegateManager.RegisterDelegateConvertor<EventDelegate.Callback>((act) =>
+        {
+            return new EventDelegate.Callback(() =>
+            {
+                ((Action)act)();
+            });
+        });
+
     }
     void OnError(string text)
     {
