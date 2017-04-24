@@ -6,14 +6,9 @@ using UnityEngine;
  public partial   class FightModelScene : BaseScene
 {
     string mSceneName;
-    List<int> mBuff = new List<int>();
     public override void Start()
     {
         base.Start();
-        for(int i = 0; i < 30; i++)
-        {
-            mBuff.Add(i);
-        }
     }
     public override void OnPreEnter(object arg)
     {
@@ -30,10 +25,6 @@ using UnityEngine;
         base.Update();
         if(IsActive)
         {
-            foreach (var e in mBuff)
-            {
-                Debug.Log(e);
-            }
         }
 
     }

@@ -56,7 +56,7 @@ public class Game :SingleTon<Game>
     }
     void initDelegate()
     {
-        Patcher.Instance.mOnUpdate += Game.Instance.OnUpdate;
+        Patcher.Instance.mOnUpdate = Game.Instance.OnUpdate;
     }
     public static void StartGame()
     {
