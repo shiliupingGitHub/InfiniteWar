@@ -9,7 +9,7 @@ public class Infinite_main : MonoBehaviour {
     public bool UnityDebug = false;
     // Use this for initialization
     public static PackDefine s_PackDefine;
-    public static RemotePackDefine s_RemotePackDefine = new RemotePackDefine();
+    public static RemotePackDefine s_RemotePackDefine;
     public static Patcher s_Patcher;
     public UISlider sd;
     public UILabel lb_tip;
@@ -18,6 +18,9 @@ public class Infinite_main : MonoBehaviour {
     public UIEventListener btn;
   
     void Start () {
+        s_PackDefine = null;
+        s_RemotePackDefine = new RemotePackDefine();
+        s_Patcher = null;
         Debug.Log(Application.persistentDataPath);
         DisableUI();
         s_Patcher = null;
