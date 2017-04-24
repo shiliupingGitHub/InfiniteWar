@@ -78,18 +78,19 @@ public class Infinite_main : MonoBehaviour {
         {      
             TextAsset ta = s_Patcher.GetAsset("game") as TextAsset;
             s_Patcher.Clear();
-            if (Application.platform == RuntimePlatform.Android  )
-            {
-               System.Reflection.Assembly assembly =  AppDomain.CurrentDomain.Load(ta.bytes);
-                Type type = assembly.GetType("Game");
-                if (null != ta)
-                {
-                    System.Reflection.MethodInfo m = type.GetMethod("StartGame");
-                    m.Invoke(null, null);
-                }
-            }
-            else
-            {
+            //if (Application.platform == RuntimePlatform.Android  )
+            //{
+            //    AppDomain.CurrentDomain.UNL
+            //   System.Reflection.Assembly assembly =  AppDomain.CurrentDomain.Load(ta.bytes);
+            //    Type type = assembly.GetType("Game");
+            //    if (null != ta)
+            //    {
+            //        System.Reflection.MethodInfo m = type.GetMethod("StartGame");
+            //        m.Invoke(null, null);
+            //    }
+            //}
+            //else
+            //{
                 ILRuntime.Runtime.Enviorment.AppDomain appdomain = new ILRuntime.Runtime.Enviorment.AppDomain();
                 using (MemoryStream ms = new MemoryStream(ta.bytes))
                 {
@@ -97,7 +98,7 @@ public class Infinite_main : MonoBehaviour {
                 }
                 InitILRunTime(appdomain);
                 appdomain.Invoke("Game", "StartGame", null);
-            }
+          //  }
 
         }
         else
