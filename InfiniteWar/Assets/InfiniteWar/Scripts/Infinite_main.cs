@@ -18,6 +18,13 @@ public class Infinite_main : MonoBehaviour {
     public UIEventListener btn;
   
     void Start () {
+        if (null != s_Patcher)
+        {
+            s_Patcher.mOnUpdate = null;
+            s_Patcher.Clear();
+            if (null != s_Patcher.gameObject)
+                GameObject.Destroy(s_Patcher.gameObject);
+        }
         s_PackDefine = null;
         s_RemotePackDefine = new RemotePackDefine();
         s_Patcher = null;
@@ -116,6 +123,7 @@ public class Infinite_main : MonoBehaviour {
     }
     void InitILRunTime(ILRuntime.Runtime.Enviorment.AppDomain appdomain)
     {
+    
         appdomain.DelegateManager.RegisterMethodDelegate<UnityEngine.GameObject>();
         appdomain.DelegateManager.RegisterDelegateConvertor<UIEventListener.VoidDelegate>((act) =>
         {

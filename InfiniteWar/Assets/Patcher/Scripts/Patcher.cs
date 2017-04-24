@@ -317,6 +317,7 @@ public class Patcher : MonoBehaviour  {
         mOnError = onerror;
         if (!debug)
         {
+            
             GameObject dGo = new GameObject("Downloader");
             mDownloader = dGo.AddComponent<PatcherDownloader>();
             mDownloader.BeginDownload(url, delegate (PatcherElem e)
