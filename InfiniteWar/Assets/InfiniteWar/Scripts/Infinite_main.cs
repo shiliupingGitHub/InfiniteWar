@@ -224,7 +224,7 @@ public class Infinite_main : MonoBehaviour {
             s_Patcher = pGo.AddComponent<Patcher>();
             Patcher.Instance = s_Patcher;
             int curBundle = Mathf.Max(s_Patcher.UnPackBundle, s_PackDefine.Bundle);
-            if(remoteMinbundle > curBundle)
+            if(remoteMinbundle > s_PackDefine.Bundle)
             {
                 OnNewBundle();
             }
