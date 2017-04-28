@@ -266,6 +266,7 @@ public class PackDefine : IJsonSerializable, IJsonDeserializable
     public bool debug;
     public int channel;
     public string newBundleTip;
+    public string engine_version;
     public void FromJson(JsonObject jsonObject)
     {
         Url = jsonObject.GetString("url");
@@ -275,6 +276,7 @@ public class PackDefine : IJsonSerializable, IJsonDeserializable
         debug = jsonObject.GetBool("debug");
         channel = jsonObject.GetInt("channel");
         newBundleTip = jsonObject.GetString("newBundleTip");
+        engine_version = jsonObject.GetString("engine");
         debug = debug && Application.isEditor;
     }
 
