@@ -60,6 +60,10 @@ public class Patcher : MonoBehaviour  {
         public Dictionary<string, Elem> mDic = new Dictionary<string, Elem>();
         public void AddElem(Elem e)
         {
+            if(mDic.ContainsKey(e.szName))
+            {
+                mElems.Remove(mDic[e.szName]);
+            }
             mElems.Add(e);
             mDic[e.szName] = e;
         }
