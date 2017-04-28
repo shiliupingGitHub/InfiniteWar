@@ -223,14 +223,17 @@ public class Infinite_main : MonoBehaviour {
             GameObject.DontDestroyOnLoad(pGo);
             s_Patcher = pGo.AddComponent<Patcher>();
             Patcher.Instance = s_Patcher;
-            int curBundle = Mathf.Max(s_Patcher.UnPackBundle, s_PackDefine.Bundle);
             if(remoteMinbundle > s_PackDefine.Bundle)
             {
                 OnNewBundle();
             }
             else
             {
-                if (s_Patcher.IsNeedUnPack(s_PackDefine.Bundle, s_PackDefine.debug))
+                if(s_PackDefine.Bundle != s_Patcher.UnPackBundle)
+                {
+                    s_Patcher.Remove();
+                }
+                if (s_Patcher.IsNeedUnPack(s_PackDefine.debug))
                 {
                     lb_tip.gameObject.SetActive(true);
                     lb_tip.text = s_PackDefine.uncompressTip;

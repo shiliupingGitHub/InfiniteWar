@@ -237,6 +237,10 @@ public class Patcher : MonoBehaviour  {
         if (null != mOnMsg)
             mOnMsg(msg);
     }
+    public void Remove()
+    {
+        Directory.Delete(Application.persistentDataPath, true);
+    }
    bool IsDepenceLoaded(string path)
     {
         if (null != mCurElems)
@@ -303,10 +307,9 @@ public class Patcher : MonoBehaviour  {
         }
     }
     public  PatcherElem mCurElems = null;
-    public bool IsNeedUnPack(int p,bool debug)
+    public bool IsNeedUnPack(bool debug)
     {
-        int v = PlayerPrefs.GetInt("UnPackVersion", 0);
-        return p > v && File.Exists(Application.persistentDataPath + "/Pather") && !debug;
+        return  File.Exists(Application.persistentDataPath + "/Pather") && !debug;
     }
     public int UnPackBundle
     {
