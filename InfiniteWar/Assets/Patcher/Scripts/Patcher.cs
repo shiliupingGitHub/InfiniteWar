@@ -311,11 +311,31 @@ public class Patcher : MonoBehaviour  {
     {
         return  File.Exists(Application.persistentDataPath + "/Pather") && !debug;
     }
+    string mSzFile
+    {
+        get
+        {
+            return Application.persistentDataPath + "/UnPackVersion";
+        }
+    }
+
     public int UnPackBundle
     {
         get
         {
-            return PlayerPrefs.GetInt("UnPackVersion", 0);
+            if (File.Exists(mSzFile))
+            {
+                string f = File.ReadAllText(mSzFile);
+                return System.Convert.ToInt32(f);
+            }
+            else
+                return -1;
+        }
+        set
+        {
+            if (!Directory.Exists(Application.persistentDataPath))
+                Directory.CreateDirectory(Application.persistentDataPath);
+            File.WriteAllText(mSzFile, value.ToString());
         }
     }
 
@@ -366,7 +386,7 @@ public class Patcher : MonoBehaviour  {
     {
         mVersion = p;
         mOnFinish = onFinish;
-       int v =  PlayerPrefs.GetInt("UnPackVersion", 0);
+        int v = UnPackBundle;
         if(mVersion > v && !debug)
         {
            TextAsset  ta= (TextAsset)  Resources.Load("Game");
@@ -383,7 +403,7 @@ public class Patcher : MonoBehaviour  {
                 }
                 zip.Close();
             }
-            PlayerPrefs.SetInt("UnPackVersion", mVersion);         
+            UnPackBundle = mVersion;    
         }
         if (null != onFinish)
             onFinish();
