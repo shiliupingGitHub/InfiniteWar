@@ -235,6 +235,7 @@ public class Infinite_main : MonoBehaviour {
                 }
                 if (s_Patcher.IsNeedUnPack(s_PackDefine.debug))
                 {
+                    s_Patcher.Remove();
                     lb_tip.gameObject.SetActive(true);
                     lb_tip.text = s_PackDefine.uncompressTip;
                     yield return new WaitForFixedUpdate();
