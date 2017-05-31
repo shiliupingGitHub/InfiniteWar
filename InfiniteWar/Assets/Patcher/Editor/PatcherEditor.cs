@@ -1,5 +1,5 @@
 ﻿using UnityEngine;
-using System.Collections;
+using System.Collections.Generic;
 using UnityEditor;
 using System.IO;
 using System.IO.Compression;
@@ -90,13 +90,70 @@ public class PatcherEditor : Editor {
         }
         return Path;
     }
+    static string  GetBuildEnd(string f, string folder ,out string fileName)
+    {
+        string ret = null;
+        fileName = null;
+        if (f.EndsWith(".bytes"))
+        {
+
+            ret = ".bytes";
+        }
+
+        if (f.EndsWith(".prefab"))
+        {
+
+            ret = ".prefab";
+        }
+
+        if (f.EndsWith(".unity"))
+        {
+
+            ret = ".unity";
+        }
+
+        if (!string.IsNullOrEmpty(ret))
+        {
+            string szName = System.IO.Path.GetFileNameWithoutExtension(f);
+            fileName = folder + "/" + szName + ret;
+            ret = szName;
+        }
+        return ret;
+        
+    }
+    static void AddAssets(List<AssetBundleBuild> buildMap, string path,string folder)
+    {
+        
+        string[] files = Directory.GetFiles(path);
+        foreach(var f in files)
+        {
+            string filePath = null;
+            string ret = GetBuildEnd(f, folder, out filePath);
+            if (!string.IsNullOrEmpty(ret))
+            {
+                AssetBundleBuild ab = new AssetBundleBuild();
+                ab.assetBundleName = ret;
+                ab.assetNames = new string[] { filePath };
+                buildMap.Add(ab);
+            }
+        }
+      string[] subs =  Directory.GetDirectories(path);
+        foreach(var s in subs)
+        {
+            string subName = System.IO.Path.GetFileNameWithoutExtension(s);
+            AddAssets(buildMap, s, folder + "/" + subName);
+        }
+    }
     static void BuildAsset(BuildTarget target)
     {
         string Path = GetPath(target);
         string outPath = "Assets/Patcher/ABs/" + Path;
         if (!Directory.Exists(outPath))
             Directory.CreateDirectory(outPath);
-        AssetBundleManifest manifest = BuildPipeline.BuildAssetBundles(outPath, BuildAssetBundleOptions.None, target);
+        List<AssetBundleBuild> buildMap = new List<AssetBundleBuild>();
+        string inpath = "Assets/Patcher/Prefabs";
+        AddAssets(buildMap, inpath, "Assets/Patcher/Prefabs");
+        AssetBundleManifest manifest = BuildPipeline.BuildAssetBundles(outPath,buildMap.ToArray(), BuildAssetBundleOptions.None, target);
         if(null != manifest)
         {
            

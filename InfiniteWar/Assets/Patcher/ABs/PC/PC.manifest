@@ -5,23 +5,23 @@ AssetBundleManifest:
       Name: game
       Dependencies: {}
     Info_1:
-      Name: loginfrrame
+      Name: scenebkroot
       Dependencies: {}
     Info_2:
-      Name: loginscene
+      Name: fightmodescene_1v1
       Dependencies:
-        Dependency_0: loginfrrame
+        Dependency_0: scenebkroot
     Info_3:
       Name: hallscene
       Dependencies:
         Dependency_0: model_1
     Info_4:
-      Name: model_1
-      Dependencies: {}
-    Info_5:
-      Name: fightmodescene_1v1
+      Name: loginscene
       Dependencies:
-        Dependency_0: scenebkroot
+        Dependency_0: loginfrrame
+    Info_5:
+      Name: loginfrrame
+      Dependencies: {}
     Info_6:
-      Name: scenebkroot
+      Name: model_1
       Dependencies: {}
