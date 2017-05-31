@@ -58,17 +58,14 @@
     <Reference Include="UnityEngine.Networking">
       <HintPath>Library\UnityAssemblies\UnityEngine.Networking.dll</HintPath>
     </Reference>
-    <Reference Include="UnityEngine.Networking">
-      <HintPath>Library\UnityAssemblies\UnityEngine.Networking.dll</HintPath>
-    </Reference>
-    <Reference Include="UnityEngine.UI">
-      <HintPath>Library\UnityAssemblies\UnityEngine.UI.dll</HintPath>
-    </Reference>
     <Reference Include="UnityEditor">
       <HintPath>Library\UnityAssemblies\UnityEditor.dll</HintPath>
     </Reference>
     <Reference Include="Mono.Cecil">
       <HintPath>Library\UnityAssemblies\Mono.Cecil.dll</HintPath>
+    </Reference>
+    <Reference Include="Game">
+      <HintPath>Assets\Plugins\Game.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -513,12 +510,11 @@
     <Compile Include="Assets\dotween\DOTween\Tweener.cs" />
     <Compile Include="Assets\dotween\DOTween\UpdateType.cs" />
     <Compile Include="Assets\dotween\DOTween43\ShortcutExtensions43.cs" />
-    <Compile Include="Assets\mTon\Demo\scripts\test1_main.cs" />
-    <Compile Include="Assets\mTon\Generater\test1.cs" />
     <Compile Include="Assets\mTon\Scripts\MiniJSON.cs" />
     <Compile Include="Assets\mTon\Scripts\mTonBase.cs" />
     <Compile Include="Assets\mTon\Scripts\mTonBehaviour.cs" />
     <Compile Include="Assets\mTon\Scripts\mTonTools.cs" />
+    <Compile Include="Assets\networklib\Scripts\networklib.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\InfiniteWar\Resources\Config\PackDefine.txt" />
@@ -564,7 +560,11 @@
     <None Include="Assets\NGUI\Resources\Shaders\Unlit - Transparent Packed 2.shader" />
     <None Include="Assets\NGUI\Resources\Shaders\Unlit - Transparent Packed 3.shader" />
     <None Include="Assets\NGUI\Resources\Shaders\Unlit - Transparent Packed.shader" />
-    <None Include="Assets\mTon\Editor\Config\test1.txt" />
+    <None Include="Assets\mTon\Editor\Config\FightModel.txt" />
+    <None Include="Assets\mTon\Editor\Config\FightModelScene.txt" />
+    <None Include="Assets\mTon\Editor\Config\HallScene.txt" />
+    <None Include="Assets\mTon\Editor\Config\LoginFrame.txt" />
+    <None Include="Assets\mTon\Editor\Config\LoginScene.txt" />
     <None Include="Assets\mTon\Editor\mTon.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\SyntaxTree\UnityVS\2015\UnityVS.CSharp.targets" />
